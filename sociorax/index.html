@@ -3,49 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Sociorax</title>
-    <meta name="description" content="Sociorax is an all-in-one app platform with useful tools for productivity, creativity, utilities, and everyday tasks. Discover, use, and download powerful apps in one place." />
-    <meta name="keywords" content="apps, useful tools, productivity, utilities, creativity, mobile apps, web tools, APK downloads, multiple applications, Sociorax" />
+
+    <meta
+      name="description"
+      content="Sociorax is an all-in-one app platform with useful tools for productivity, creativity, utilities, and everyday tasks."
+    />
+
+    <meta
+      name="keywords"
+      content="apps, useful tools, productivity, utilities, creativity, mobile apps, web tools, APK downloads, multiple applications, Sociorax"
+    />
+
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/icon.png" />
-    <!-- Open Graph / Facebook -->
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Sociorax" />
-    <meta property="og:description" content="Sociorax is an all-in-one app platform with useful tools for productivity, creativity, utilities, and everyday tasks." />
+    <meta
+      property="og:description"
+      content="Sociorax is an all-in-one app platform with useful tools for productivity, creativity, utilities, and everyday tasks."
+    />
     <meta property="og:image" content="/logo.png" />
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Sociorax" />
-    <meta name="twitter:description" content="Discover useful apps and tools on Sociorax — one platform, many possibilities." />
+    <meta
+      name="twitter:description"
+      content="Discover useful apps and tools on Sociorax — one platform, many possibilities."
+    />
     <meta name="twitter:image" content="/logo.png" />
 
-    <!-- Structured Data (JSON-LD) -->
+    <!-- Structured Data -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Sociorax",
-        "alternateName": ["Sociorax App Platform", "Sociorax Tools"],
+        "alternateName": [
+          "Sociorax App Platform",
+          "Sociorax Tools"
+        ],
         "url": "https://sociorax.com/",
         "description": "Sociorax is an all-in-one app platform with useful tools for productivity, creativity, utilities, and everyday tasks. Discover, use, and download powerful apps in one place.",
         "keywords": "apps, useful tools, productivity, utilities, creativity, mobile apps, web tools, APK downloads"
       }
     </script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q2G4D6N0FZ"></script>
+
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-Q2G4D6N0FZ"
+    ></script>
+
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
 
-      gtag('config', 'G-Q2G4D6N0FZ');
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag("js", new Date());
+      gtag("config", "G-Q2G4D6N0FZ");
     </script>
-
   </head>
+
   <body>
     <div id="root"></div>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
