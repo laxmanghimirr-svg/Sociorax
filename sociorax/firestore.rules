@@ -1,0 +1,60 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function isValidRating(data, userId) {
+      return data.appId is string
+        && data.appId.size() > 0
+        && data.appName is string
+        && data.userId == userId
+        && data.rating is number
+        && data.rating >= 1
+        && data.rating <= 5
+        && (data.review == null || (data.review is string && data.review.size() <= 500))
+        && data.createdAt is number
+        && data.updatedAt is number;
+    }
+
+    // Apps collection rules
+    match /apps/{appId} {
+      allow read: if true;
+
+      // Ratings subcollection
+      match /ratings/{userId} {
+        // Anyone can read public ratings & reviews for apps
+        allow read: if true;
+
+        // An authenticated user can create or update their own rating
+        allow create, update: if isOwner(userId) && isValidRating(incoming(), userId);
+
+        // An authenticated user can delete their own rating
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    // Global top-level reviews fallback if queried directly
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create, update: if isSignedIn() && incoming().rating >= 1 && incoming().rating <= 5;
+    }
+  }
+}

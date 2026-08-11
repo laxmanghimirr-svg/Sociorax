@@ -1,0 +1,8 @@
+{
+  "name": "sociorax",
+  "description": "Sociorax is an all-in-one app platform with useful tools for productivity, creativity, utilities, and everyday tasks. Discover, use, and download powerful apps in one place.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
