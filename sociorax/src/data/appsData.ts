@@ -262,7 +262,7 @@ export const APPS_DATA: AppItem[] = [
     apkUrl: 'https://github.com/laxmanghimirr-svg/PDF-scanner/releases/download/v1.0.0/PDF.Scanner.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: '71.1 MB',
+    downloadSize: '15.1 MB',
     version: '1.0.0',
     updatedDate: 'August 2026',
     isComingSoon: false,
