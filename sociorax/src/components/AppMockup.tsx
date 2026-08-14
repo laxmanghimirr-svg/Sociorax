@@ -192,7 +192,7 @@ export function AppMockup({ type, title }: AppMockupProps) {
         {type === 'prompt' && (
           <div className="flex flex-col h-full justify-between">
             <div className="flex justify-between items-center text-xs text-purple-400">
-              <span className="font-semibold">Prompt Generator</span>
+              <span className="font-semibold">Prompt Gen Ai</span>
               <Sparkles className="w-3.5 h-3.5 text-purple-400" />
             </div>
 

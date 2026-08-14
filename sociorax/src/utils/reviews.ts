@@ -62,7 +62,7 @@ export function getAppStats(app: AppItem, liveRatings: AppReview[] = []) {
     };
   }
 
-  const stats = calculateRatingStats(liveRatings, app.rating);
+  const stats = calculateRatingStats(liveRatings);
   return {
     displayRating: stats.averageRating,
     displayReviewsCount: stats.displayReviewsCount,

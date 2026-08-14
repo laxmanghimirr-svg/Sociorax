@@ -143,7 +143,7 @@ export function DownloadModal({ isOpen, onClose, onError }: DownloadModalProps) 
             {/* Footer attribution */}
             <div className="pt-3 border-t border-white/10 text-center">
               <span className="text-[11px] text-white/50 tracking-wide font-medium">
-                Sociorax v2.4.0 · Safe & Verified Package
+                Sociorax v2.4.0 · Official Platform Package
               </span>
             </div>
           </motion.div>

@@ -204,14 +204,15 @@ export async function submitOrUpdateUserRating(params: {
 /**
  * Calculate average rating and total ratings count.
  */
-export function calculateRatingStats(ratings: UserRating[], defaultRatingStr: string) {
+export function calculateRatingStats(ratings: UserRating[]) {
   const totalRatings = ratings.length;
 
   if (totalRatings === 0) {
     return {
-      averageRating: defaultRatingStr || '5.0',
+      averageRating: 'No rating yet',
       totalRatings: 0,
-      displayReviewsCount: 'No ratings yet',
+      displayReviewsCount: 'No reviews yet',
+      hasRatings: false,
     };
   }
 
@@ -221,6 +222,7 @@ export function calculateRatingStats(ratings: UserRating[], defaultRatingStr: st
   return {
     averageRating: avg,
     totalRatings,
-    displayReviewsCount: `${totalRatings} ${totalRatings === 1 ? 'rating' : 'ratings'}`,
+    displayReviewsCount: `${totalRatings} ${totalRatings === 1 ? 'review' : 'reviews'}`,
+    hasRatings: true,
   };
 }

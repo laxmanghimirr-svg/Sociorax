@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Star, Send, CheckCircle2, AlertCircle, MessageSquare, Clock, UserCheck } from 'lucide-react';
+import { Star, Send, CheckCircle2, AlertCircle, MessageSquare, Clock, UserCheck, RefreshCw } from 'lucide-react';
 import { AppItem } from '../types/app';
 import {
   UserRating,
-  subscribeAppRatings,
   submitOrUpdateUserRating,
   getCurrentUserRatingForApp,
   calculateRatingStats,
@@ -11,13 +10,21 @@ import {
 
 interface AppRatingProps {
   app: AppItem;
-  onRatingStatsChange?: (stats: { averageRating: string; totalRatings: number }) => void;
+  reviews: UserRating[];
+  reviewsStatus: 'loading' | 'success' | 'error';
+  reviewsError: string | null;
+  onRetry?: () => void;
 }
 
-export const AppRating: React.FC<AppRatingProps> = ({ app, onRatingStatsChange }) => {
+export const AppRating: React.FC<AppRatingProps> = ({
+  app,
+  reviews,
+  reviewsStatus,
+  reviewsError,
+  onRetry,
+}) => {
   const isComingSoon = app.isComingSoon || app.downloadSize === 'Coming Soon';
 
-  const [ratings, setRatings] = useState<UserRating[]>([]);
   const [currentUserRating, setCurrentUserRating] = useState<UserRating | null>(null);
 
   const [ratingInput, setRatingInput] = useState<number>(5);
@@ -25,63 +32,39 @@ export const AppRating: React.FC<AppRatingProps> = ({ app, onRatingStatsChange }
   const [userNameInput, setUserNameInput] = useState<string>('');
   const [reviewInput, setReviewInput] = useState<string>('');
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitSuccessMsg, setSubmitSuccessMsg] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Subscribe to real-time ratings and load existing user rating
+  // Load existing rating for current anonymous user if available
   useEffect(() => {
-    setIsLoading(true);
     setSubmitSuccessMsg(null);
     setErrorMessage(null);
 
-    // 1. Subscribe to ratings for this specific app
-    const unsubscribe = subscribeAppRatings(
-      app.id,
-      (fetchedRatings) => {
-        setRatings(fetchedRatings);
-        setIsLoading(false);
-
-        const stats = calculateRatingStats(fetchedRatings, app.rating);
-        if (onRatingStatsChange) {
-          onRatingStatsChange({
-            averageRating: stats.averageRating,
-            totalRatings: stats.totalRatings,
-          });
-        }
-      },
-      (err) => {
-        console.error('Error fetching ratings:', err);
-        setIsLoading(false);
-      }
-    );
-
-    // 2. Fetch current anonymous user's existing rating for pre-filling
     if (!isComingSoon) {
-      getCurrentUserRatingForApp(app.id).then((existing) => {
-        if (existing) {
-          setCurrentUserRating(existing);
-          setRatingInput(existing.rating);
-          if (existing.userName && existing.userName !== 'Anonymous User') {
-            setUserNameInput(existing.userName);
+      getCurrentUserRatingForApp(app.id)
+        .then((existing) => {
+          if (existing) {
+            setCurrentUserRating(existing);
+            setRatingInput(existing.rating);
+            if (existing.userName && existing.userName !== 'Anonymous User') {
+              setUserNameInput(existing.userName);
+            }
+            if (existing.review) {
+              setReviewInput(existing.review);
+            }
+          } else {
+            setCurrentUserRating(null);
+            setRatingInput(5);
+            setUserNameInput('');
+            setReviewInput('');
           }
-          if (existing.review) {
-            setReviewInput(existing.review);
-          }
-        } else {
-          setCurrentUserRating(null);
-          setRatingInput(5);
-          setUserNameInput('');
-          setReviewInput('');
-        }
-      });
+        })
+        .catch((err) => console.error('Error fetching user rating:', err));
     }
-
-    return () => unsubscribe();
   }, [app.id, isComingSoon]);
 
-  const stats = calculateRatingStats(ratings, app.rating);
+  const stats = calculateRatingStats(reviews);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,7 +100,7 @@ export const AppRating: React.FC<AppRatingProps> = ({ app, onRatingStatsChange }
           : 'Thank you! Your rating & experience review have been submitted successfully!'
       );
 
-      // Auto dismiss success toast
+      // Auto-dismiss success toast after 5s
       setTimeout(() => setSubmitSuccessMsg(null), 5000);
     } catch (err) {
       console.error('Submission failed:', err);
@@ -125,15 +108,12 @@ export const AppRating: React.FC<AppRatingProps> = ({ app, onRatingStatsChange }
       if (msg.includes('500 characters')) {
         setErrorMessage('Review text cannot exceed 500 characters.');
       } else {
-        setErrorMessage('Something went wrong. Please try again.');
+        setErrorMessage('Something went wrong submitting your review. Please try again.');
       }
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  // Extract reviews that contain user text feedback
-  const reviewsList = ratings.filter((r) => r.review && r.review.trim().length > 0);
 
   return (
     <div className="liquid-glass rounded-3xl p-6 md:p-8 border border-white/10 space-y-8">
@@ -147,18 +127,30 @@ export const AppRating: React.FC<AppRatingProps> = ({ app, onRatingStatsChange }
           <p className="text-xs text-white/60 mt-1">
             {isComingSoon
               ? `${app.name} is coming soon. Ratings and reviews are currently disabled.`
-              : `Real-time user feedback for ${app.name} powered by Firebase`}
+              : `Real-time user feedback for ${app.name}`}
           </p>
         </div>
 
         {!isComingSoon && (
           <div className="flex items-center gap-4 bg-white/5 px-4 py-2.5 rounded-2xl border border-white/10">
-            <div className="flex items-center gap-1.5 text-amber-400 font-bold text-lg">
+            <div className="flex items-center gap-1.5 font-bold text-lg text-amber-400">
               <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
-              <span>{stats.averageRating}</span>
+              <span>
+                {reviewsStatus === 'loading'
+                  ? 'Loading...'
+                  : reviewsStatus === 'error'
+                  ? 'Error'
+                  : stats.averageRating}
+              </span>
             </div>
             <div className="h-4 w-[1px] bg-white/15" />
-            <span className="text-xs text-white/70 font-medium">{stats.displayReviewsCount}</span>
+            <span className="text-xs text-white/70 font-medium">
+              {reviewsStatus === 'loading'
+                ? 'Loading reviews...'
+                : reviewsStatus === 'error'
+                ? 'Unable to load reviews'
+                : stats.displayReviewsCount}
+            </span>
           </div>
         )}
       </div>
@@ -292,7 +284,7 @@ export const AppRating: React.FC<AppRatingProps> = ({ app, onRatingStatsChange }
                   {isSubmitting ? (
                     <>
                       <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Saving to Firebase...</span>
+                      <span>Saving Review...</span>
                     </>
                   ) : (
                     <>
@@ -309,27 +301,44 @@ export const AppRating: React.FC<AppRatingProps> = ({ app, onRatingStatsChange }
           <div className="lg:col-span-7 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-white">
-                User Experiences ({reviewsList.length})
+                User Experiences ({reviews.length})
               </h3>
               <span className="text-[11px] text-white/50">Newest first</span>
             </div>
 
-            {isLoading ? (
+            {reviewsStatus === 'loading' ? (
               <div className="p-8 text-center bg-white/[0.02] rounded-2xl border border-white/10 space-y-2">
                 <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-xs text-white/60">Loading live ratings from Firestore...</p>
+                <p className="text-xs text-white/60">Loading reviews...</p>
               </div>
-            ) : reviewsList.length === 0 ? (
+            ) : reviewsStatus === 'error' ? (
+              <div className="p-8 text-center bg-red-500/10 rounded-2xl border border-red-500/20 space-y-3">
+                <AlertCircle className="w-8 h-8 text-red-400 mx-auto" />
+                <h4 className="text-sm font-semibold text-white">Unable to load reviews</h4>
+                <p className="text-xs text-red-300 max-w-xs mx-auto">
+                  {reviewsError || 'A network error occurred while connecting to the reviews service.'}
+                </p>
+                {onRetry && (
+                  <button
+                    onClick={onRetry}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    <span>Try Again</span>
+                  </button>
+                )}
+              </div>
+            ) : reviews.length === 0 ? (
               <div className="p-8 text-center bg-white/[0.02] rounded-2xl border border-white/10 space-y-2">
                 <MessageSquare className="w-8 h-8 text-white/30 mx-auto" />
-                <p className="text-xs font-medium text-white/70">No written reviews yet</p>
+                <p className="text-xs font-medium text-white/70">No reviews yet</p>
                 <p className="text-[11px] text-white/40 max-w-xs mx-auto">
                   Be the first user to share your experience with {app.name}!
                 </p>
               </div>
             ) : (
               <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">
-                {reviewsList.map((rev) => {
+                {reviews.map((rev) => {
                   const initial = (rev.userName || 'A').charAt(0).toUpperCase();
                   const isCurrentUsersReview = currentUserRating && rev.id === currentUserRating.id;
 
@@ -376,7 +385,9 @@ export const AppRating: React.FC<AppRatingProps> = ({ app, onRatingStatsChange }
 
                       {/* Review Text */}
                       <p className="text-xs text-white/80 leading-relaxed whitespace-pre-line">
-                        {rev.review}
+                        {rev.review && rev.review.trim().length > 0
+                          ? rev.review
+                          : `Rated ${rev.rating} out of 5 stars`}
                       </p>
                     </div>
                   );

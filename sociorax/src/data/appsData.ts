@@ -1,9 +1,9 @@
 import { AppItem } from '../types/app';
-import motionTrackerLogo from '../assets/images/motion_tracker_logo_1785755888828.jpg';
-import photoCompressorLogo from '../assets/images/photo_compressor_logo_1785756282487.jpg';
-import promptGeneratorLogo from '../assets/images/prompt_generator_logo_1785756701254.jpg';
-import pdfScannerLogo from '../assets/images/pdf_scanner_logo_1785757033865.jpg';
-import qrScannerLogo from '../assets/images/qr_scanner_logo_1785757366127.jpg';
+import motionTrackerLogo from '../assets/images/Motion tracker.png';
+import photoCompressorLogo from '../assets/images/Photo compress.png';
+import promptGeneratorLogo from '../assets/images/prompt gen ai.png';
+import pdfScannerLogo from '../assets/images/pdf scanner.png';
+import qrScannerLogo from '../assets/images/qr scanner.png';
 
 export const APPS_DATA: AppItem[] = [
   {
@@ -18,11 +18,11 @@ export const APPS_DATA: AppItem[] = [
       'Monitor every step of your fitness journey with real-time activity tracking, detailed movement analytics, distance measurement, calorie estimation, and progress insights.',
     longDescription:
       'Motion Tracker is your ultimate intelligent fitness companion engineered for high-precision movement detection and daily activity analytics. Leveraging advanced sensor fusion algorithms, Motion Tracker captures steps, pace, elevation change, active calories burned, and movement intensity without draining your battery. Whether you are running, cycling, hiking, or walking, gain instant visual feedback on your performance and build lasting health habits.',
-    playStoreUrl: '', // Placeholder for Google Play Store link
-    apkUrl: 'https://github.com/laxmanghimirr-svg/Motion-tracker/releases/download/v1.0.0/app-debug.apk',
-    rating: '4.8',
-    reviewsCount: 'No reviews yet',
-    downloadSize: '4.8 MB',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.motiontracker', // Example Play Store link
+    apkUrl: 'https://github.com/laxmanghimirr-svg/Motion---Tracker/releases/download/v1.0.0/Motion.Tracker.apk',
+    rating: '',
+    reviewsCount: '',
+    downloadSize: '76.1 MB',
     version: '2.4.0',
     updatedDate: 'July 2026',
     highlights: [
@@ -98,11 +98,11 @@ export const APPS_DATA: AppItem[] = [
       'Compress high-resolution images in seconds while maintaining exceptional visual quality. Optimized for faster uploads, reduced storage, and instant sharing.',
     longDescription:
       'Photo Compressor gives you complete control over your photo library storage. Using cutting-edge spatial compression algorithms, it reduces image file sizes by up to 90% with zero noticeable loss in visual clarity. Perfect for freeing up phone storage, speeding up website upload times, sending emails, and optimizing photos for social media. Includes batch compression, EXIF data stripping, custom resolution resizing, and target file size sliders.',
-    playStoreUrl: '', // Placeholder for Google Play Store link
-    apkUrl: 'https://github.com/laxmanghimirr-svg/photo-compress/releases/download/v1.0.0/app-debug.apk',
-    rating: '4.6',
-    reviewsCount: 'No reviews yet',
-    downloadSize: '3.46 MB',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.photocompress',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/photo-compress/releases/download/v1.0.0/photo.Compress.apk',
+    rating: '',
+    reviewsCount: '',
+    downloadSize: '26.3 MB',
     version: '2.5.2',
     updatedDate: 'July 2026',
     highlights: [
@@ -178,11 +178,11 @@ export const APPS_DATA: AppItem[] = [
       'Scan QR codes instantly with advanced recognition technology. Open websites, connect to Wi-Fi networks, save contacts, access events, and decode multi-format barcodes.',
     longDescription:
       'QR Scanner is built for speed, safety, and modern utility. Powered by instant camera auto-focus and neural pattern detection, it reads standard QR codes, barcodes, Wi-Fi credentials, vCards, event passes, and payment codes in milliseconds—even in low-light conditions with built-in flashlight support. Features built-in URL safety preview to shield you from phishing links before opening.',
-    playStoreUrl: '', // Placeholder for Google Play Store link
-    apkUrl: 'https://github.com/laxmanghimirr-svg/QR-scanner/releases/download/v1.0.0/app-debug.apk',
-    rating: '4.7',
-    reviewsCount: 'No reviews yet',
-    downloadSize: '7.82 MB',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.qrscan',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/QR---Scan/releases/download/v2.0.0/Qr.scan.apk',
+    rating: '',
+    reviewsCount: '',
+    downloadSize: '32 MB',
     version: '2.2.0',
     updatedDate: 'July 2026',
     highlights: [
@@ -258,14 +258,14 @@ export const APPS_DATA: AppItem[] = [
       'Transform paper documents into professional-quality PDF files using intelligent edge detection, automatic color enhancement, and clear scanning.',
     longDescription:
       'PDF Scanner replaces bulky desktop scanners with an intelligent pocket document studio. Capture receipts, contracts, whiteboard notes, book pages, and ID cards with automatic border detection, perspective correction, and shadow removal. Includes built-in OCR (Optical Character Recognition) to search, copy, and extract text from scanned documents in over 30 languages, plus e-signature sign-and-send capabilities.',
-    playStoreUrl: '', // Placeholder for Google Play Store link
-    apkUrl: '', // Placeholder for direct APK download link (replace with actual .apk file URL)
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.pdfscanner',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/PDF-scanner/releases/download/v1.0.0/PDF.Scanner.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: 'Coming Soon',
-    version: '2.4.5',
-    updatedDate: 'July 2026',
-    isComingSoon: true,
+    downloadSize: '71.1 MB',
+    version: '1.0.0',
+    updatedDate: 'August 2026',
+    isComingSoon: false,
     highlights: [
       'Automatic perspective edge cropping & flattening',
       'Smart filters: Magic Color, Black & White, Grayscale',
@@ -330,20 +330,20 @@ export const APPS_DATA: AppItem[] = [
   {
     id: 'prompt-generator',
     slug: 'prompt-generator',
-    name: 'Prompt Generator',
-    iconTitle: '✨ Prompt Generator',
+    name: 'Prompt Gen Ai',
+    iconTitle: '✨ Prompt Gen Ai',
     iconUrl: promptGeneratorLogo,
     category: 'AI & Productivity',
     tagline: 'Craft Perfect AI Prompts for Maximum Creative Output',
     shortDescription:
       'Generate powerful AI prompts for writing, coding, design, marketing, education, and creative projects in seconds.',
     longDescription:
-      'Prompt Generator unlocks the full capability of leading artificial intelligence platforms like Gemini, ChatGPT, Claude, and Midjourney. By utilizing structured prompt engineering templates—including persona framing, task breakdown, constraints, output formatting, and context injection—it formats raw ideas into optimized prompts. Includes a prompt history vault, variable fill-in wizards, and 500+ curated community templates.',
-    playStoreUrl: '', // Placeholder for Google Play Store link
-    apkUrl: 'https://github.com/laxmanghimirr-svg/prompt-AI/releases/download/v1.0.0/app-debug.apk',
-    rating: '4.5',
-    reviewsCount: 'No reviews yet',
-    downloadSize: '4.4 MB',
+      'Prompt Gen Ai unlocks the full capability of leading artificial intelligence platforms like Gemini, ChatGPT, Claude, and Midjourney. By utilizing structured prompt engineering templates—including persona framing, task breakdown, constraints, output formatting, and context injection—it formats raw ideas into optimized prompts. Includes a prompt history vault, variable fill-in wizards, and 500+ curated community templates.',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.promptgen',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/prompt-Generator-/releases/download/v1.0.0/Prompt.Gen.apk',
+    rating: '',
+    reviewsCount: '',
+    downloadSize: '63.2 MB',
     version: '2.6.0',
     updatedDate: 'July 2026',
     highlights: [

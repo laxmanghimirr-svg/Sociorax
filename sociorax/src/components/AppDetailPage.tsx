@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { motion } from 'motion/react';
 import {
   ArrowLeft,
@@ -47,6 +47,11 @@ import { AppItem } from '../types/app';
 import { AppMockup } from './AppMockup';
 import { LogoMark } from './Primitives';
 import { AppRating } from './AppRating';
+import {
+  UserRating,
+  subscribeAppRatings,
+  calculateRatingStats,
+} from '../services/ratingService';
 
 interface AppDetailPageProps {
   app: AppItem;
@@ -56,23 +61,57 @@ interface AppDetailPageProps {
 
 export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPageProps) {
   const [copied, setCopied] = useState(false);
-  const [liveStats, setLiveStats] = useState<{ averageRating: string; totalRatings: number }>({
-    averageRating: app.rating,
-    totalRatings: 0,
-  });
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setLiveStats({ averageRating: app.rating, totalRatings: 0 });
-  }, [app.id, app.rating]);
+  const [reviews, setReviews] = useState<UserRating[]>([]);
+  const [reviewsStatus, setReviewsStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [reviewsError, setReviewsError] = useState<string | null>(null);
 
   const isComingSoon = app.isComingSoon || app.downloadSize === 'Coming Soon';
 
-  const displayRating = !isComingSoon && liveStats.totalRatings > 0 ? liveStats.averageRating : app.rating;
-  const displayReviewsCount =
-    !isComingSoon && liveStats.totalRatings > 0
-      ? `${liveStats.totalRatings} ${liveStats.totalRatings === 1 ? 'rating' : 'ratings'}`
-      : 'No ratings yet';
+  const setupSubscription = useCallback(() => {
+    setReviewsStatus('loading');
+    setReviewsError(null);
+
+    const unsubscribe = subscribeAppRatings(
+      app.id,
+      (fetched) => {
+        const appReviews = fetched.filter((r) => r.appId === app.id);
+        setReviews(appReviews);
+        setReviewsStatus('success');
+      },
+      (err) => {
+        console.error(`Error subscribing to reviews for ${app.id}:`, err);
+        setReviewsError(err.message || 'Failed to load reviews');
+        setReviewsStatus('error');
+      }
+    );
+
+    return unsubscribe;
+  }, [app.id]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const unsubscribe = setupSubscription();
+    return () => unsubscribe();
+  }, [setupSubscription]);
+
+  const stats = calculateRatingStats(reviews);
+
+  let displayRating = 'No rating yet';
+  let displayReviewsCount = 'No reviews yet';
+
+  if (isComingSoon) {
+    displayRating = 'Soon';
+    displayReviewsCount = '0';
+  } else if (reviewsStatus === 'loading') {
+    displayRating = 'Loading...';
+    displayReviewsCount = 'Loading reviews...';
+  } else if (reviewsStatus === 'error') {
+    displayRating = 'Error';
+    displayReviewsCount = 'Unable to load reviews';
+  } else if (reviewsStatus === 'success') {
+    displayRating = stats.averageRating;
+    displayReviewsCount = stats.displayReviewsCount;
+  }
 
   const displaySize = isComingSoon ? 'Coming Soon' : app.downloadSize;
 
@@ -139,13 +178,18 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
   const apkLink = app.apkUrl || '#';
 
   const handleApkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (onOpenDownloadModal) {
+    if (!app.apkUrl && onOpenDownloadModal) {
       e.preventDefault();
       onOpenDownloadModal();
     }
   };
 
   const mockupType = app.screenshots[0]?.mockupType || 'motion';
+  const playStoreLink =
+    app.playStoreUrl && app.playStoreUrl.trim().length > 0
+      ? app.playStoreUrl
+      : `https://play.google.com/store/apps/details?id=com.sociorax.${app.slug.replace(/-/g, '')}`;
+  const hasPlayStoreUrl = true;
 
   return (
     <div className="min-h-screen text-slate-100 pb-20 pt-20 md:pt-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -207,7 +251,7 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
             <div className="text-center space-y-1">
               <div className="text-xs text-white/50 font-medium">Rating</div>
               {!isComingSoon ? (
-                <div className="flex items-center justify-center gap-1 font-bold text-amber-400 text-sm md:text-base">
+                <div className="flex items-center justify-center gap-1 font-bold text-amber-400 text-xs md:text-sm">
                   <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                   <span>{displayRating}</span>
                 </div>
@@ -220,15 +264,15 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
 
             <div className="text-center space-y-1 border-x border-white/10 px-2">
               <div className="text-xs text-white/50 font-medium">Size</div>
-              <div className="font-bold text-white text-sm md:text-base">
+              <div className="font-bold text-white text-xs md:text-sm">
                 {displaySize}
               </div>
             </div>
 
             <div className="text-center space-y-1">
               <div className="text-xs text-white/50 font-medium">Reviews</div>
-              <div className="font-bold text-emerald-400 text-sm md:text-base">
-                {isComingSoon ? '0' : app.reviewsCount}
+              <div className="font-bold text-emerald-400 text-xs md:text-sm truncate">
+                {displayReviewsCount}
               </div>
             </div>
           </div>
@@ -254,15 +298,15 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
               </div>
             )}
 
-            {app.playStoreUrl && (
+            {hasPlayStoreUrl && (
               <a
-                href={app.playStoreUrl}
+                href={playStoreLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold rounded-2xl border border-white/10 transition-all cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold rounded-2xl border border-white/10 transition-all cursor-pointer hover:border-emerald-500/40 hover:text-emerald-300"
               >
                 <Smartphone className="w-4 h-4 text-emerald-400" />
-                <span>Google Play</span>
+                <span>Get it on Google Play</span>
               </a>
             )}
 
@@ -278,7 +322,7 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
           {/* Privacy & Safety Guarantee */}
           <div className="flex items-center gap-2 text-[11px] text-white/50 pt-1">
             <Shield className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span>100% Virus Free & Verified Clean APK • Safe Direct Download</span>
+            <span>Direct & Official Package • Safe Direct Download</span>
           </div>
         </div>
 
@@ -384,7 +428,10 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
       <section className="mt-12 md:mt-16">
         <AppRating
           app={app}
-          onRatingStatsChange={(stats) => setLiveStats(stats)}
+          reviews={reviews}
+          reviewsStatus={reviewsStatus}
+          reviewsError={reviewsError}
+          onRetry={setupSubscription}
         />
       </section>
 
@@ -410,18 +457,32 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <a
-              href={apkLink}
-              download={app.apkUrl ? `${app.slug}.apk` : undefined}
-              onClick={handleApkClick}
-              target={apkLink.startsWith('http') ? '_blank' : undefined}
-              rel={apkLink.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold rounded-2xl text-sm shadow-xl cursor-pointer transition-all"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download {app.name} APK</span>
-            </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 w-full max-w-md">
+            {!isComingSoon && (
+              <a
+                href={apkLink}
+                download={app.apkUrl ? `${app.slug}.apk` : undefined}
+                onClick={handleApkClick}
+                target={apkLink.startsWith('http') ? '_blank' : undefined}
+                rel={apkLink.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold rounded-2xl text-xs shadow-xl cursor-pointer transition-all"
+              >
+                <Download className="w-4 h-4" />
+                <span>Download {app.name} APK</span>
+              </a>
+            )}
+
+            {hasPlayStoreUrl && (
+              <a
+                href={playStoreLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-2xl text-xs border border-white/15 transition-all cursor-pointer hover:border-emerald-400/40"
+              >
+                <Smartphone className="w-4 h-4 text-emerald-400" />
+                <span>Get it on Google Play</span>
+              </a>
+            )}
           </div>
         </div>
       </section>

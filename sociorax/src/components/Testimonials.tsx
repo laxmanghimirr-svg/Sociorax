@@ -49,10 +49,10 @@ const items: FeatureCardItem[] = [
   },
   {
     appId: 'prompt-generator',
-    iconTitle: '✨ Prompt Generator',
+    iconTitle: '✨ Prompt Gen Ai',
     description:
       "Generate powerful AI prompts for writing, coding, design, marketing, education, and creative projects. Create professional prompts in seconds to maximise productivity across today's leading AI platforms.",
-    subtitle1: 'Prompt Generator',
+    subtitle1: 'Prompt Gen Ai',
     subtitle2: 'AI-Powered Creativity',
   },
 ];

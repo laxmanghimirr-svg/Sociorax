@@ -12,7 +12,7 @@ export function FeatureTriage({ onSelectApp }: FeatureTriageProps) {
   const chipsMap: { label: string; id: string }[] = [
     { label: 'Motion Tracker', id: 'motion-tracker' },
     { label: 'Photo Compressor', id: 'photo-compressor' },
-    { label: 'Prompt Generator', id: 'prompt-generator' },
+    { label: 'Prompt Gen Ai', id: 'prompt-generator' },
     { label: 'PDF Scanner', id: 'pdf-scanner' },
     { label: 'QR Scanner', id: 'qr-scanner' },
   ];

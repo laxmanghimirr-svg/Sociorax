@@ -11,7 +11,7 @@ export function LogoCloud({ onSelectApp }: LogoCloudProps) {
     { name: 'Photo Compressor', id: 'photo-compressor' },
     { name: 'QR Scanner', id: 'qr-scanner' },
     { name: 'PDF Scanner', id: 'pdf-scanner' },
-    { name: 'Prompt Generator', id: 'prompt-generator' },
+    { name: 'Prompt Gen Ai', id: 'prompt-generator' },
   ];
 
   return (
