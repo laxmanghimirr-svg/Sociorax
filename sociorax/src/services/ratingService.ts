@@ -70,6 +70,7 @@ export function subscribeAppRatings(
 
     const unsubscribe = onSnapshot(
       q,
+      { includeMetadataChanges: true },
       (snapshot) => {
         const ratings: UserRating[] = [];
         snapshot.forEach((docSnap) => {
@@ -93,14 +94,22 @@ export function subscribeAppRatings(
         onUpdate(ratings);
       },
       (error) => {
-        console.error(`Error subscribing to ratings at ${collectionPath}:`, error);
-        if (onError) onError(error);
+        // If it's a transient offline/unavailable connection error, Firestore operates in local offline mode
+        const isOffline =
+          error?.code === 'unavailable' ||
+          error?.message?.toLowerCase().includes('offline') ||
+          error?.message?.toLowerCase().includes('could not reach cloud firestore');
+
+        if (!isOffline) {
+          console.warn(`Firestore rating sync notice (${collectionPath}):`, error.message);
+          if (onError) onError(error);
+        }
       }
     );
 
     return unsubscribe;
   } catch (error) {
-    console.error(`Failed to set up ratings subscription for ${appId}:`, error);
+    console.warn(`Firestore subscription notice for ${appId}:`, error);
     if (onError && error instanceof Error) onError(error);
     return () => {};
   }

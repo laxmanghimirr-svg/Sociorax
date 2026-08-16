@@ -19,10 +19,10 @@ export const APPS_DATA: AppItem[] = [
     longDescription:
       'Motion Tracker is your ultimate intelligent fitness companion engineered for high-precision movement detection and daily activity analytics. Leveraging advanced sensor fusion algorithms, Motion Tracker captures steps, pace, elevation change, active calories burned, and movement intensity without draining your battery. Whether you are running, cycling, hiking, or walking, gain instant visual feedback on your performance and build lasting health habits.',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.motiontracker', // Example Play Store link
-    apkUrl: 'https://github.com/laxmanghimirr-svg/Motion---Tracker/releases/download/v1.0.0/Motion.Tracker.apk',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/Motion-Tracker/releases/download/v1.0.0/Motion-Tracker.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: '76.1 MB',
+    downloadSize: '42.3 MB',
     version: '2.4.0',
     updatedDate: 'July 2026',
     highlights: [
@@ -179,10 +179,10 @@ export const APPS_DATA: AppItem[] = [
     longDescription:
       'QR Scanner is built for speed, safety, and modern utility. Powered by instant camera auto-focus and neural pattern detection, it reads standard QR codes, barcodes, Wi-Fi credentials, vCards, event passes, and payment codes in milliseconds—even in low-light conditions with built-in flashlight support. Features built-in URL safety preview to shield you from phishing links before opening.',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.qrscan',
-    apkUrl: 'https://github.com/laxmanghimirr-svg/QR---Scan/releases/download/v2.0.0/Qr.scan.apk',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/QR-Scan/releases/download/v1.0.0/QR-Scan.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: '32 MB',
+    downloadSize: '36.4 MB',
     version: '2.2.0',
     updatedDate: 'July 2026',
     highlights: [
@@ -259,10 +259,10 @@ export const APPS_DATA: AppItem[] = [
     longDescription:
       'PDF Scanner replaces bulky desktop scanners with an intelligent pocket document studio. Capture receipts, contracts, whiteboard notes, book pages, and ID cards with automatic border detection, perspective correction, and shadow removal. Includes built-in OCR (Optical Character Recognition) to search, copy, and extract text from scanned documents in over 30 languages, plus e-signature sign-and-send capabilities.',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.pdfscanner',
-    apkUrl: 'https://github.com/laxmanghimirr-svg/PDF-scanner/releases/download/v1.0.0/PDF.Scanner.apk',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/PDF-Scanner/releases/download/v1.0.0/PDF-Scanner.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: '15.1 MB',
+    downloadSize: '38.6 MB',
     version: '1.0.0',
     updatedDate: 'August 2026',
     isComingSoon: false,
@@ -340,10 +340,10 @@ export const APPS_DATA: AppItem[] = [
     longDescription:
       'Prompt Gen Ai unlocks the full capability of leading artificial intelligence platforms like Gemini, ChatGPT, Claude, and Midjourney. By utilizing structured prompt engineering templates—including persona framing, task breakdown, constraints, output formatting, and context injection—it formats raw ideas into optimized prompts. Includes a prompt history vault, variable fill-in wizards, and 500+ curated community templates.',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.promptgen',
-    apkUrl: 'https://github.com/laxmanghimirr-svg/prompt-Generator-/releases/download/v1.0.0/Prompt.Gen.apk',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/Prompt-Gen-AI/releases/download/v2.0.0/Prmopt.Gen.Ai.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: '63.2 MB',
+    downloadSize: '6.55 MB',
     version: '2.6.0',
     updatedDate: 'July 2026',
     highlights: [

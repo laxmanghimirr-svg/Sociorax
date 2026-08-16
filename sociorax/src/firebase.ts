@@ -1,5 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import {
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+  Firestore,
+} from "firebase/firestore";
 import { getAuth, signInAnonymously, onAuthStateChanged, User } from "firebase/auth";
 
 const firebaseConfig = {
@@ -15,8 +20,12 @@ const firebaseConfig = {
 // Initialize Firebase App
 export const app = initializeApp(firebaseConfig);
 
-// Initialize Firestore Database
-export const db = getFirestore(app);
+// Initialize Firestore Database with persistent offline cache & multi-tab manager
+export const db: Firestore = initializeFirestore(app, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager(),
+  }),
+});
 
 // Initialize Firebase Authentication
 export const auth = getAuth(app);

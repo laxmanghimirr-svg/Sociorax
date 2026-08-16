@@ -47,6 +47,7 @@ import { AppItem } from '../types/app';
 import { AppMockup } from './AppMockup';
 import { LogoMark } from './Primitives';
 import { AppRating } from './AppRating';
+import { ShareModal } from './ShareModal';
 import {
   UserRating,
   subscribeAppRatings,
@@ -61,6 +62,7 @@ interface AppDetailPageProps {
 
 export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPageProps) {
   const [copied, setCopied] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const [reviews, setReviews] = useState<UserRating[]>([]);
   const [reviewsStatus, setReviewsStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [reviewsError, setReviewsError] = useState<string | null>(null);
@@ -71,21 +73,31 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
     setReviewsStatus('loading');
     setReviewsError(null);
 
+    // Timeout safety fallback: if Firestore offline sync is pending, show empty/offline state instead of infinite loading
+    const timer = setTimeout(() => {
+      setReviewsStatus((current) => (current === 'loading' ? 'success' : current));
+    }, 2000);
+
     const unsubscribe = subscribeAppRatings(
       app.id,
       (fetched) => {
+        clearTimeout(timer);
         const appReviews = fetched.filter((r) => r.appId === app.id);
         setReviews(appReviews);
         setReviewsStatus('success');
       },
       (err) => {
-        console.error(`Error subscribing to reviews for ${app.id}:`, err);
-        setReviewsError(err.message || 'Failed to load reviews');
-        setReviewsStatus('error');
+        clearTimeout(timer);
+        console.warn(`Reviews subscription notice for ${app.id}:`, err);
+        setReviewsError(err.message || 'Offline mode active');
+        setReviewsStatus('success');
       }
     );
 
-    return unsubscribe;
+    return () => {
+      clearTimeout(timer);
+      unsubscribe();
+    };
   }, [app.id]);
 
   useEffect(() => {
@@ -157,22 +169,8 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
     }
   };
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: app.name,
-          text: app.shortDescription,
-          url: window.location.href,
-        });
-      } catch (err) {
-        console.error('Error sharing:', err);
-      }
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
+  const handleShare = () => {
+    setShareModalOpen(true);
   };
 
   const apkLink = app.apkUrl || '#';
@@ -312,10 +310,11 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
 
             <button
               onClick={handleShare}
-              className="inline-flex items-center justify-center p-3.5 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white rounded-2xl border border-white/10 transition-all cursor-pointer"
-              title="Share App"
+              className="inline-flex items-center justify-center gap-2 p-3.5 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white rounded-2xl border border-white/10 hover:border-blue-500/40 transition-all cursor-pointer group"
+              title="Share App with friends, Bluetooth, or Social Media"
             >
-              {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
+              <Share2 className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform" />
+              <span className="text-xs font-semibold hidden sm:inline text-white/90 group-hover:text-white">Share</span>
             </button>
           </div>
 
@@ -483,9 +482,27 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
                 <span>Get it on Google Play</span>
               </a>
             )}
+
+            <button
+              onClick={handleShare}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-2xl text-xs border border-white/15 transition-all cursor-pointer hover:border-blue-400/40"
+              title="Share App"
+            >
+              <Share2 className="w-4 h-4 text-blue-400" />
+              <span>Share App</span>
+            </button>
           </div>
         </div>
       </section>
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        title={app.name}
+        description={app.shortDescription}
+        iconUrl={app.iconUrl}
+      />
     </div>
   );
 }
