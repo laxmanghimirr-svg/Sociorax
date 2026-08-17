@@ -23,7 +23,7 @@ export const AppRating: React.FC<AppRatingProps> = ({
   reviewsError,
   onRetry,
 }) => {
-  const isComingSoon = app.isComingSoon || app.downloadSize === 'Coming Soon';
+  const isComingSoon = app.isComingSoon || app.downloadSize === 'Coming Soon' || app.downloadSize === 'Soon';
 
   const [currentUserRating, setCurrentUserRating] = useState<UserRating | null>(null);
 

@@ -55,6 +55,14 @@ const items: FeatureCardItem[] = [
     subtitle1: 'Prompt Gen Ai',
     subtitle2: 'AI-Powered Creativity',
   },
+  {
+    appId: 'remove-ai-watermark',
+    iconTitle: '🪄 Remove AI Watermark',
+    description:
+      'Effortlessly remove AI watermarks, text stamps, stock logos, date stamps, and unwanted overlays from images with intelligent neural inpainting and zero quality loss.',
+    subtitle1: 'Remove AI Watermark',
+    subtitle2: 'Intelligent Neural Inpainting',
+  },
 ];
 
 export function Testimonials({ onSelectApp }: TestimonialsProps) {

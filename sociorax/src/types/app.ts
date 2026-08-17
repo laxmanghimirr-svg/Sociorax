@@ -8,7 +8,7 @@ export interface AppScreenshot {
   title: string;
   caption: string;
   gradient: string;
-  mockupType: 'motion' | 'exercise' | 'photo' | 'qr' | 'pdf' | 'prompt';
+  mockupType: 'motion' | 'exercise' | 'photo' | 'qr' | 'pdf' | 'prompt' | 'watermark';
 }
 
 export interface AppItem {

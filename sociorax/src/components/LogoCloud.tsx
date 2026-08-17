@@ -12,6 +12,7 @@ export function LogoCloud({ onSelectApp }: LogoCloudProps) {
     { name: 'QR Scanner', id: 'qr-scanner' },
     { name: 'PDF Scanner', id: 'pdf-scanner' },
     { name: 'Prompt Gen Ai', id: 'prompt-generator' },
+    { name: 'Remove AI Watermark', id: 'remove-ai-watermark' },
   ];
 
   return (
@@ -26,7 +27,7 @@ export function LogoCloud({ onSelectApp }: LogoCloudProps) {
         ALL-IN-ONE PLATFORM
       </motion.p>
 
-      <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 items-center justify-center">
+      <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 items-center justify-center">
         {logos.map((item, index) => (
           <motion.button
             key={item.id}

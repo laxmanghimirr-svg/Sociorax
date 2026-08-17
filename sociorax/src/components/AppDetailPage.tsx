@@ -67,7 +67,7 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
   const [reviewsStatus, setReviewsStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [reviewsError, setReviewsError] = useState<string | null>(null);
 
-  const isComingSoon = app.isComingSoon || app.downloadSize === 'Coming Soon';
+  const isComingSoon = app.isComingSoon || app.downloadSize === 'Coming Soon' || app.downloadSize === 'Soon';
 
   const setupSubscription = useCallback(() => {
     setReviewsStatus('loading');
@@ -125,7 +125,7 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
     displayReviewsCount = stats.displayReviewsCount;
   }
 
-  const displaySize = isComingSoon ? 'Coming Soon' : app.downloadSize;
+  const displaySize = isComingSoon ? (app.downloadSize ? app.downloadSize : 'Soon') : app.downloadSize;
 
   // Helper to map string icon names to Lucide icon components
   const renderIcon = (iconName: string) => {
@@ -187,7 +187,7 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
     app.playStoreUrl && app.playStoreUrl.trim().length > 0
       ? app.playStoreUrl
       : `https://play.google.com/store/apps/details?id=com.sociorax.${app.slug.replace(/-/g, '')}`;
-  const hasPlayStoreUrl = true;
+  const hasPlayStoreUrl = Boolean(app.playStoreUrl && app.playStoreUrl.trim().length > 0);
 
   return (
     <div className="min-h-screen text-slate-100 pb-20 pt-20 md:pt-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -290,9 +290,9 @@ export function AppDetailPage({ app, onBack, onOpenDownloadModal }: AppDetailPag
                 <span>Download APK ({app.downloadSize})</span>
               </a>
             ) : (
-              <div className="flex-1 min-w-[200px] inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-blue-500/20 text-blue-300 text-xs font-semibold rounded-2xl border border-blue-500/30">
+              <div className="flex-1 min-w-[200px] inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-blue-500/15 text-blue-300 text-xs font-semibold rounded-2xl border border-blue-500/30">
                 <Clock className="w-4 h-4 text-blue-400" />
-                <span>Coming Soon</span>
+                <span>Coming Soon...</span>
               </div>
             )}
 

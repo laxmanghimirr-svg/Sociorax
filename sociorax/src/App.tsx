@@ -147,6 +147,7 @@ export default function App() {
         <Navbar
           onDownloadClick={handleOpenDownload}
           onGoHome={handleGoHome}
+          onSelectApp={handleSelectApp}
           isAppDetailView={!!activeApp}
         />
 

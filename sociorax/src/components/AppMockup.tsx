@@ -14,10 +14,13 @@ import {
   Search,
   Scan,
   RefreshCw,
+  Wand2,
+  Eraser,
+  Image as ImageIcon,
 } from 'lucide-react';
 
 interface AppMockupProps {
-  type: 'motion' | 'exercise' | 'photo' | 'qr' | 'pdf' | 'prompt';
+  type: 'motion' | 'exercise' | 'photo' | 'qr' | 'pdf' | 'prompt' | 'watermark';
   title: string;
 }
 
@@ -211,6 +214,52 @@ export function AppMockup({ type, title }: AppMockupProps) {
 
             <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-2 rounded-xl text-xs text-center shadow-md">
               Copy Formatted Prompt
+            </div>
+          </div>
+        )}
+
+        {type === 'watermark' && (
+          <div className="flex flex-col h-full justify-between">
+            <div className="flex justify-between items-center text-xs text-cyan-400">
+              <span className="font-semibold">Neural Inpainting</span>
+              <span className="bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full text-[9px] font-bold">4K LOSSLESS</span>
+            </div>
+
+            <div className="my-auto space-y-2.5">
+              {/* Image Preview with detected watermark boundary */}
+              <div className="relative bg-gradient-to-br from-slate-800 to-indigo-950/80 rounded-xl p-3 border border-white/15 overflow-hidden shadow-inner">
+                <div className="h-20 w-full rounded-lg bg-white/5 flex flex-col items-center justify-center relative overflow-hidden border border-white/10">
+                  {/* Mock photo elements */}
+                  <div className="absolute -top-3 -right-3 w-12 h-12 bg-indigo-500/20 rounded-full blur-sm" />
+                  <div className="absolute -bottom-2 -left-2 w-10 h-10 bg-cyan-500/20 rounded-full blur-sm" />
+                  
+                  {/* Before / Detected Watermark badge */}
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-cyan-400/50 shadow-lg">
+                    <Eraser className="w-3 h-3 text-cyan-400" />
+                    <span className="text-[10px] font-medium text-cyan-200 font-mono">AI Stamp Erased</span>
+                    <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center text-[10px] mt-2 text-white/70">
+                  <span className="text-cyan-300 font-medium">Texture Reconstructed</span>
+                  <span className="text-emerald-400 font-mono">100% Crisp</span>
+                </div>
+              </div>
+
+              {/* Inpainting parameters slider */}
+              <div className="bg-white/5 rounded-xl p-2 border border-white/10 flex items-center justify-between text-[10px]">
+                <div className="flex items-center gap-1.5 text-white/70">
+                  <Wand2 className="w-3 h-3 text-cyan-400" />
+                  <span>Smart Brush: 24px</span>
+                </div>
+                <span className="text-cyan-400 font-semibold">Auto-Snap ON</span>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-semibold py-2 rounded-xl text-xs text-center shadow-md flex items-center justify-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+              <span>Erase Watermark</span>
             </div>
           </div>
         )}

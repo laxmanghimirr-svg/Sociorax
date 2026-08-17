@@ -15,6 +15,7 @@ export function FeatureTriage({ onSelectApp }: FeatureTriageProps) {
     { label: 'Prompt Gen Ai', id: 'prompt-generator' },
     { label: 'PDF Scanner', id: 'pdf-scanner' },
     { label: 'QR Scanner', id: 'qr-scanner' },
+    { label: 'Remove Ai Watermark', id: 'remove-ai-watermark' },
   ];
 
   const handleChipClick = (item: { label: string; id: string }) => {

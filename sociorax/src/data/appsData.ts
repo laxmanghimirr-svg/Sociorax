@@ -4,6 +4,7 @@ import photoCompressorLogo from '../assets/images/Photo compress.png';
 import promptGeneratorLogo from '../assets/images/prompt gen ai.png';
 import pdfScannerLogo from '../assets/images/pdf scanner.png';
 import qrScannerLogo from '../assets/images/qr scanner.png';
+import removeAiWatermarkLogo from '../assets/images/remove_ai_watermark_1786967367537.jpg';
 
 export const APPS_DATA: AppItem[] = [
   {
@@ -179,10 +180,10 @@ export const APPS_DATA: AppItem[] = [
     longDescription:
       'QR Scanner is built for speed, safety, and modern utility. Powered by instant camera auto-focus and neural pattern detection, it reads standard QR codes, barcodes, Wi-Fi credentials, vCards, event passes, and payment codes in milliseconds—even in low-light conditions with built-in flashlight support. Features built-in URL safety preview to shield you from phishing links before opening.',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.qrscan',
-    apkUrl: 'https://github.com/laxmanghimirr-svg/QR-Scan/releases/download/v1.0.0/QR-Scan.apk',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/QR-Scan/releases/download/v1.0.0/OR-Scan.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: '36.4 MB',
+    downloadSize: '10.5 MB',
     version: '2.2.0',
     updatedDate: 'July 2026',
     highlights: [
@@ -259,10 +260,10 @@ export const APPS_DATA: AppItem[] = [
     longDescription:
       'PDF Scanner replaces bulky desktop scanners with an intelligent pocket document studio. Capture receipts, contracts, whiteboard notes, book pages, and ID cards with automatic border detection, perspective correction, and shadow removal. Includes built-in OCR (Optical Character Recognition) to search, copy, and extract text from scanned documents in over 30 languages, plus e-signature sign-and-send capabilities.',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.pdfscanner',
-    apkUrl: 'https://github.com/laxmanghimirr-svg/PDF-Scanner/releases/download/v1.0.0/PDF-Scanner.apk',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/PDF-Scanner/releases/download/v1.0.0/PDF-Scan.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: '38.6 MB',
+    downloadSize: '37.5 MB',
     version: '1.0.0',
     updatedDate: 'August 2026',
     isComingSoon: false,
@@ -340,10 +341,10 @@ export const APPS_DATA: AppItem[] = [
     longDescription:
       'Prompt Gen Ai unlocks the full capability of leading artificial intelligence platforms like Gemini, ChatGPT, Claude, and Midjourney. By utilizing structured prompt engineering templates—including persona framing, task breakdown, constraints, output formatting, and context injection—it formats raw ideas into optimized prompts. Includes a prompt history vault, variable fill-in wizards, and 500+ curated community templates.',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.promptgen',
-    apkUrl: 'https://github.com/laxmanghimirr-svg/Prompt-Gen-AI/releases/download/v2.0.0/Prmopt.Gen.Ai.apk',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/Prompt-Gen-AI/releases/download/v1.0.0/Prompt-Gen-AI.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: '6.55 MB',
+    downloadSize: '36.1 MB',
     version: '2.6.0',
     updatedDate: 'July 2026',
     highlights: [
@@ -403,6 +404,88 @@ export const APPS_DATA: AppItem[] = [
         caption: 'Preview prompt structure and test prompt variations with variable tags.',
         gradient: 'from-purple-600/30 to-pink-900/40',
         mockupType: 'prompt',
+      },
+    ],
+  },
+
+  {
+    id: 'remove-ai-watermark',
+    slug: 'remove-ai-watermark',
+    name: 'Remove AI Watermark',
+    iconTitle: '🪄 Remove AI Watermark',
+    iconUrl: removeAiWatermarkLogo,
+    category: 'AI & Media Utilities',
+    tagline: 'Instantly Erase AI Watermarks, Logos & Overlays with Lossless Quality',
+    shortDescription:
+      'Effortlessly remove AI watermarks, text stamps, stock logos, date stamps, and unwanted overlays from images with intelligent neural inpainting and zero quality loss.',
+    longDescription:
+      'Remove AI Watermark is a state-of-the-art visual inpainting tool engineered to cleanly erase watermarks, AI model signatures, stock photo overlays, date stamps, and unwanted photo artifacts. Powered by deep neural context synthesis, it intelligently analyzes surrounding textures, lighting, and color gradients to reconstruct background pixels with flawless fidelity—eliminating blurriness and smudged edges. Perfect for restoring AI-generated artwork, cleaning social media images, and perfecting design assets in seconds with 100% on-device privacy.',
+    playStoreUrl: '',
+    apkUrl: '',
+    rating: '',
+    reviewsCount: '',
+    downloadSize: 'Soon',
+    version: '1.0.0',
+    updatedDate: 'August 2026',
+    isComingSoon: true,
+    highlights: [
+      'Deep neural inpainting with seamless texture & color reconstruction',
+      'One-tap automatic AI watermark & logo detection',
+      'Lossless 4K preservation with zero blur, smearing, or pixelation',
+      'Precision brush & smart lasso tools with magnetic edge-snapping',
+      'Batch processing for clearing watermarks from multiple images at once',
+      '100% on-device privacy — no images uploaded to external servers',
+    ],
+    features: [
+      {
+        title: 'Intelligent Neural Inpainting',
+        description: 'Advanced deep learning models reconstruct underlying background textures, patterns, and lighting with seamless accuracy.',
+        iconName: 'Wand2',
+      },
+      {
+        title: 'Auto AI Stamp Detection',
+        description: 'Instantly detects and isolates watermark stamps from Midjourney, DALL-E, Imagen, Stable Diffusion, and stock photo libraries.',
+        iconName: 'Sparkles',
+      },
+      {
+        title: 'Precision Brush & Lasso Tool',
+        description: 'Fine-tune your removal area with adjustable brush sizes, magnetic edge contouring, and smart lasso selection.',
+        iconName: 'Sliders',
+      },
+      {
+        title: 'Lossless 4K Output',
+        description: 'Retains original ultra-high resolution, sharp edges, and EXIF camera metadata without compression artifacts.',
+        iconName: 'Maximize2',
+      },
+      {
+        title: 'Batch Processing Studio',
+        description: 'Clean watermarks and logos from dozens of photos in a single tap with synchronized removal templates.',
+        iconName: 'Layers',
+      },
+      {
+        title: '100% On-Device Privacy',
+        description: 'All inpainting calculations run locally on your device hardware, keeping your personal photos completely private.',
+        iconName: 'ShieldCheck',
+      },
+    ],
+    screenshots: [
+      {
+        title: 'AI Watermark Remover Studio',
+        caption: 'Automatic detection and instant neural inpainting erasing unwanted overlays.',
+        gradient: 'from-cyan-600/30 to-blue-900/40',
+        mockupType: 'watermark',
+      },
+      {
+        title: 'Before & After Inspection',
+        caption: 'Interactive side-by-side comparison showing crystal-clear reconstructed background.',
+        gradient: 'from-blue-600/30 to-indigo-900/40',
+        mockupType: 'watermark',
+      },
+      {
+        title: 'Precision Selection Tools',
+        caption: 'Custom brush and smart lasso tools with live edge detection for pixel-perfect cleanup.',
+        gradient: 'from-indigo-600/30 to-purple-900/40',
+        mockupType: 'watermark',
       },
     ],
   },
