@@ -421,13 +421,13 @@ export const APPS_DATA: AppItem[] = [
     longDescription:
       'Remove AI Watermark is a state-of-the-art visual inpainting tool engineered to cleanly erase watermarks, AI model signatures, stock photo overlays, date stamps, and unwanted photo artifacts. Powered by deep neural context synthesis, it intelligently analyzes surrounding textures, lighting, and color gradients to reconstruct background pixels with flawless fidelity—eliminating blurriness and smudged edges. Perfect for restoring AI-generated artwork, cleaning social media images, and perfecting design assets in seconds with 100% on-device privacy.',
     playStoreUrl: '',
-    apkUrl: '',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/Remove-AI-Watermark/releases/download/v1.0.0/Remove.AI.Watermark.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: 'Soon',
+    downloadSize: '31 MB',
     version: '1.0.0',
     updatedDate: 'August 2026',
-    isComingSoon: true,
+    isComingSoon: false,
     highlights: [
       'Deep neural inpainting with seamless texture & color reconstruction',
       'One-tap automatic AI watermark & logo detection',
