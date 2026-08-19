@@ -180,10 +180,10 @@ export const APPS_DATA: AppItem[] = [
     longDescription:
       'QR Scanner is built for speed, safety, and modern utility. Powered by instant camera auto-focus and neural pattern detection, it reads standard QR codes, barcodes, Wi-Fi credentials, vCards, event passes, and payment codes in milliseconds—even in low-light conditions with built-in flashlight support. Features built-in URL safety preview to shield you from phishing links before opening.',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sociorax.qrscan',
-    apkUrl: 'https://github.com/laxmanghimirr-svg/QR-Scan/releases/download/v1.0.0/OR-Scan.apk',
+    apkUrl: 'https://github.com/laxmanghimirr-svg/QR-Scan/releases/download/v1.0.0/QR-Scan.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: '10.5 MB',
+    downloadSize: '4.55 MB',
     version: '2.2.0',
     updatedDate: 'July 2026',
     highlights: [
@@ -344,7 +344,7 @@ export const APPS_DATA: AppItem[] = [
     apkUrl: 'https://github.com/laxmanghimirr-svg/Prompt-Gen-AI/releases/download/v1.0.0/Prompt-Gen-AI.apk',
     rating: '',
     reviewsCount: '',
-    downloadSize: '36.1 MB',
+    downloadSize: '40.1 MB',
     version: '2.6.0',
     updatedDate: 'July 2026',
     highlights: [
